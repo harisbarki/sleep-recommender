@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import cors from 'cors';
 // Routes
 // organization routes must be first as it is initializing some config vars
@@ -12,7 +12,7 @@ export function setupRoutes(app: express.Application) {
 	// for testing
 	app.use(cors({credentials: true, origin: config.cors.origin}));
 
-	app.use((req, res, next) => {
+	app.use((req: Request, res: Response, next: NextFunction) => {
 		res.header('Access-Control-Allow-Origin', config.cors.origin);
 		res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
 		res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials');
@@ -25,7 +25,7 @@ export function setupRoutes(app: express.Application) {
 	ApiRoutes.use('/health', HealthRoutes);
 
 	/* Everything else */
-	app.get('*', (req, res) => {
+	app.get('*', (req: Request, res: Response) => {
 		console.log('API Only');
 		res.send('<h1>API Only</h1>');
 	});

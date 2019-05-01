@@ -1,4 +1,5 @@
 import express, {NextFunction, Request, Response} from 'express';
+
 import {HealthController} from './health.controller';
 import {HttpError} from '../../shared';
 
