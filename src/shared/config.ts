@@ -24,7 +24,7 @@ const config: IConfig = {
 	developmentEnvironment: process.env.NODE_ENV === Environments.development,
 	environment: process.env.NODE_ENV || Environments.development,
 	server: {
-		port: process.env.PORT || '3000',
+		port: process.env.PORT || '8080',
 	},
 	cors: {
 		origin: '*'
