@@ -15,9 +15,7 @@ export class HealthController {
 		return new Promise((resolve, reject) => {
 			console.log('sleepDuration', sleepDuration, ' , fallingAsleepTime', fallingAsleepTime, ' , wakingUpTime', wakingUpTime);
 			let html = '<strong>To wake up at the end of a sleep cycle, go to sleep at:</strong><br>';
-
-			const wakeupTimeMoment = moment(wakingUpTime, 'h:mm A');
-			html += `<br>`;
+			let wakeupTimeMoment = moment(wakingUpTime, 'h:mm A');
 
 			// go through 6 cycles
 			for (let i = 6; i > 0; i--) {
@@ -46,6 +44,40 @@ export class HealthController {
 				}
 				html += `<br>`;
 			}
+
+			html += `<br>`;
+
+			html += '<strong>If you go to sleep NOW, you should wake up at:</strong><br>';
+			wakeupTimeMoment = moment();
+
+			// go through 6 cycles
+			for (let i = 6; i > 0; i--) {
+				const wakeupTimeMomentCopy = moment(wakeupTimeMoment);
+				const totalCycleMinutes = i * HealthController.sleepCycle;
+				const sleepTime = wakeupTimeMomentCopy.add(totalCycleMinutes, 'minutes');
+				const amountOfSleepHours = sleepTime.diff(wakeupTimeMoment, 'hours');
+				const amountOfSleepMinutes = sleepTime.diff(wakeupTimeMoment, 'minutes') % 60;
+				sleepTime.add(fallingAsleepTime, 'minutes');
+
+				if (i === 5) {
+					html += '<strong>';
+				}
+
+				html += `${sleepTime.format('h:mm A')} (${i} cycles, ${amountOfSleepHours}h`;
+				if (amountOfSleepMinutes > 0) {
+					html += `${amountOfSleepMinutes}m`;
+				}
+				html += ` of sleep)`;
+				if (i === 6) {
+					html += ' - recommended for long-sleepers';
+				} else if (i === 5) {
+					html += ' - recommended for average-sleepers</strong>';
+				} else if (i === 4) {
+					html += ' - recommended for short-sleepers';
+				}
+				html += `<br>`;
+			}
+
 
 			resolve(html);
 		});
