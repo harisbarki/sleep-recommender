@@ -9,9 +9,9 @@ HealthController.Instance;
 // Get html
 HealthRoutes.get('/html', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 	try {
-		const sleepDuration: number = req.params.sleepDuration;
-		const fallingAsleepTime: number = req.params.fallingAsleepTime;
-		const wakingUpTime: Date = req.params.wakingUpTime;
+		const sleepDuration: number = req.query.sleepDuration;
+		const fallingAsleepTime: number = req.query.fallingAsleepTime;
+		const wakingUpTime: string = req.query.wakingUpTime;
 		const html: any = await HealthController.getHtml(sleepDuration, fallingAsleepTime, wakingUpTime);
 		res.send(html);
 	} catch (error) {
@@ -24,7 +24,7 @@ HealthRoutes.get('/json', async (req: Request, res: Response, next: NextFunction
 	try {
 		const sleepDuration: number = req.params.sleepDuration;
 		const fallingAsleepTime: number = req.params.fallingAsleepTime;
-		const wakingUpTime: Date = req.params.wakingUpTime;
+		const wakingUpTime: string = req.params.wakingUpTime;
 		const json: any = await HealthController.getJson(sleepDuration, fallingAsleepTime, wakingUpTime);
 		res.json(json);
 	} catch (error) {
