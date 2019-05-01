@@ -6,13 +6,27 @@ const HealthRoutes = express.Router();
 
 HealthController.Instance;
 
-// Get all
-HealthRoutes.get('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+// Get html
+HealthRoutes.get('/html', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 	try {
-		// const organizations: IOrganizationModel[] = await HealthController.getOrganizations();
+		const sleepDuration: number = req.params.sleepDuration;
+		const fallingAsleepTime: number = req.params.fallingAsleepTime;
+		const wakingUpTime: Date = req.params.wakingUpTime;
+		const html: any = await HealthController.getHtml(sleepDuration, fallingAsleepTime, wakingUpTime);
+		res.send(html);
+	} catch (error) {
+		next(new HttpError(500, 'Server Error'));
+	}
+});
 
-		// res.status(200).json(organizations);
-		res.json('hellloooo');
+// Get json
+HealthRoutes.get('/json', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+	try {
+		const sleepDuration: number = req.params.sleepDuration;
+		const fallingAsleepTime: number = req.params.fallingAsleepTime;
+		const wakingUpTime: Date = req.params.wakingUpTime;
+		const json: any = await HealthController.getJson(sleepDuration, fallingAsleepTime, wakingUpTime);
+		res.json(json);
 	} catch (error) {
 		next(new HttpError(500, 'Server Error'));
 	}
