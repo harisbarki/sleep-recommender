@@ -1,4 +1,5 @@
-import moment from 'moment';
+const moment = require('moment-timezone');
+moment.tz.setDefault('America/St_Johns|Canada/Newfoundland');
 
 export class HealthController {
 	private static _instance: HealthController;
