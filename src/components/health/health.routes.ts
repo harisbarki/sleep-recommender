@@ -18,7 +18,7 @@ HealthRoutes.get('/html', async (req: Request, res: Response, next: NextFunction
 			return;
 		} else {
 			const html: any = await HealthController.getHtml(sleepDuration, fallingAsleepTime, wakingUpTime);
-			res.send(html);
+			res.status(200).send(html);
 		}
 	} catch (error) {
 		next(new HttpError(500, 'Server Error'));
